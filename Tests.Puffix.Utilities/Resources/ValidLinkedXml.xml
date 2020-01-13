@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<issueContainer xmlns="urn:sonarqube.org:2019:8.1">
+  <issue>
+    <engineId>1</engineId>
+    <ruleId>A440</ruleId>
+    <severity>MINOR</severity>
+    <primaryLocation>
+      <message>Test 1</message>
+      <filePath>C:\Test1.xml</filePath>
+    </primaryLocation>
+    <effortMinutes>90</effortMinutes>
+  </issue>
+  <issue>
+    <engineId>1</engineId>
+    <ruleId>A442</ruleId>
+    <severity>MAJOR</severity>
+    <primaryLocation>
+      <message>Test 2</message>
+      <filePath>C:\Test2.xml</filePath>
+    </primaryLocation>
+    <effortMinutes>1</effortMinutes>
+  </issue>
+</issueContainer>
