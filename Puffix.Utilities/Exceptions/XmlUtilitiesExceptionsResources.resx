@@ -117,17 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CompareException" xml:space="preserve">
+    <value>An error occured while comparing two XML documents.</value>
+  </data>
   <data name="DeserializeException" xml:space="preserve">
     <value>An error occured while deserializing a XML document or data.</value>
   </data>
   <data name="LoadingSchemaSetException" xml:space="preserve">
     <value>Errors ({0} errors) were encountered while loading or validating the XML Shema (XSD) set.</value>
   </data>
+  <data name="NullObjectToSerializeException" xml:space="preserve">
+    <value>The object to serialize is not set.</value>
+  </data>
   <data name="NullXmlDataException" xml:space="preserve">
     <value>The XML data are not set.</value>
   </data>
   <data name="NullXmlDocumentException" xml:space="preserve">
     <value>The XML document is not set.</value>
+  </data>
+  <data name="SerializeException" xml:space="preserve">
+    <value>An error occured while serializing an object into XML document or data.</value>
   </data>
   <data name="XmlValidationException" xml:space="preserve">
     <value>Errors ({0} errors) were encountered while validating a XML document.</value>

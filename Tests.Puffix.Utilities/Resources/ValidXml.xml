@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<issues xmlns="urn:sonarqube.org:2019:8.1">
+<issues xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:sonarqube.org:2019:8.1">
   <issue>
     <engineId>1</engineId>
     <ruleId>A440</ruleId>

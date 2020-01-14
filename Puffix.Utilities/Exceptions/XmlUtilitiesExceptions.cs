@@ -132,6 +132,57 @@ namespace Puffix.Utilities.Exceptions.XmlUtilities
     }
 
     /// <summary>
+    /// Error when the object to serialize is not set.
+    /// </summary>
+    [Serializable]
+    public sealed class NullObjectToSerializeException : XmlUtilitiesExceptions
+    {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public NullObjectToSerializeException()
+            : base(typeof(NullObjectToSerializeException))
+        { }
+
+        #region Exception serialization.
+        /// <summary>
+        /// Constructor for the serialization (DO NOT MODIFY).
+        /// </summary>
+        /// <param name="info">Serialization information.</param>
+        /// <param name="context">Context.</param>
+        private NullObjectToSerializeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        { }
+        #endregion
+    }
+
+    /// <summary>
+    /// Error while serializing an object.
+    /// </summary>
+    [Serializable]
+    public sealed class SerializeException : XmlUtilitiesExceptions
+    {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="innerException">Inner error.</param>
+        public SerializeException(Exception innerException)
+            : base(typeof(SerializeException), innerException)
+        { }
+
+        #region Exception serialization.
+        /// <summary>
+        /// Constructor for the serialization (DO NOT MODIFY).
+        /// </summary>
+        /// <param name="info">Serialization information.</param>
+        /// <param name="context">Context.</param>
+        private SerializeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        { }
+        #endregion
+    }
+
+    /// <summary>
     /// Error when loading a XML schema set.
     /// </summary>
     [Serializable]
@@ -232,6 +283,32 @@ namespace Puffix.Utilities.Exceptions.XmlUtilities
             // Appel de la méthode de base.
             base.GetObjectData(info, context);
         }
+        #endregion
+    }
+
+    /// <summary>
+    /// Error while comparing two XML documents.
+    /// </summary>
+    [Serializable]
+    public sealed class CompareException : XmlUtilitiesExceptions
+    {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="innerException">Inner error.</param>
+        public CompareException(Exception innerException)
+            : base(typeof(CompareException), innerException)
+        { }
+
+        #region Exception serialization.
+        /// <summary>
+        /// Constructor for the serialization (DO NOT MODIFY).
+        /// </summary>
+        /// <param name="info">Serialization information.</param>
+        /// <param name="context">Context.</param>
+        private CompareException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        { }
         #endregion
     }
 }

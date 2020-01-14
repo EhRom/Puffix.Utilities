@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using Tests.Puffix.Utilities.Resources;
@@ -366,256 +367,257 @@ namespace Tests.Puffix.Utilities
         [Fact]
         public void SerializeXmlTest()
         {
+            // Load the resources & the expected XML Document
+            Assembly currentAssembly = Assembly.GetExecutingAssembly();
+            using Stream xmlStream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
+            XmlDocument expectedXmlDocument = new XmlDocument();
+            expectedXmlDocument.Load(xmlStream);
+
+            // Load the data to serialize
             IssuesContainer actualContainer = BuildIssuesContainer();
 
+            // Test deserialization.
+            XmlDocument result = XmlUtilities.Serialize(actualContainer, Encoding.UTF8);
+
+            // Check the result.
+            Assert.NotNull(result);
+            Assert.True(XmlUtilities.Compare(expectedXmlDocument, result));
+        }
+
+        /// <summary>
+        /// Test serialize object as byte array.
+        /// </summary>
+        [Fact]
+        public void SerializeXmlAsByteArrayTest()
+        {
+            // Load the resources & the expected XML Document
+            Assembly currentAssembly = Assembly.GetExecutingAssembly();
+            using Stream xmlStream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
+            XmlDocument expectedXmlDocument = new XmlDocument();
+            expectedXmlDocument.Load(xmlStream);
+
+            // Load the data to serialize
+            IssuesContainer actualContainer = BuildIssuesContainer();
+
+            // Test deserialization.
+            byte[] result = XmlUtilities.SerializeAsByteArray(actualContainer, Encoding.UTF8, true);
+
+            // Check the result.
+            Assert.NotNull(result);
+
+            // Load the result into a XML Document.
+            using MemoryStream actualStream = new MemoryStream(result);
+            XmlDocument actualXmlDocument = new XmlDocument();
+            actualXmlDocument.Load(actualStream);
+
+            Assert.True(XmlUtilities.Compare(expectedXmlDocument, actualXmlDocument));
+        }
+
+        /// <summary>
+        /// Test serialize object as stream.
+        /// </summary>
+        [Fact]
+        public void SerializeXmlAsStreamTest()
+        {
+            // Load the resources & the expected XML Document
+            Assembly currentAssembly = Assembly.GetExecutingAssembly();
+            using Stream xmlStream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
+            XmlDocument expectedXmlDocument = new XmlDocument();
+            expectedXmlDocument.Load(xmlStream);
+
+            // Load the data to serialize
+            IssuesContainer actualContainer = BuildIssuesContainer();
+
+            // Test deserialization.
+            using Stream result = XmlUtilities.SerializeAsStream(actualContainer, Encoding.UTF8, false);
+
+            // Check the result.
+            Assert.NotNull(result);
+
+            // Load the result into a XML Document.
+            XmlDocument actualXmlDocument = new XmlDocument();
+            actualXmlDocument.Load(result);
+
+            Assert.True(XmlUtilities.Compare(expectedXmlDocument, actualXmlDocument));
+        }
+
+        /// <summary>
+        /// Test serialize object in XML Document (async).
+        /// </summary>
+        [Fact]
+        public async Task SerializeXmlAsyncTest()
+        {
             // Load resources.
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
             using Stream xmlStream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
 
             // Load XML
-            XmlDocument xml = new XmlDocument();
-            xml.Load(xmlStream);
+            XmlDocument expectedXmlDocument = new XmlDocument();
+            expectedXmlDocument.Load(xmlStream);
+
+            // Load the data to serialize
+            IssuesContainer actualContainer = BuildIssuesContainer();
 
             // Test deserialization.
-            var result = XmlUtilities.Serialize(actualContainer);
+            XmlDocument result = await XmlUtilities.SerializeAsync(actualContainer, Encoding.UTF8);
 
-            
-
-            //// Assert result.
-            //AssertIssuesContainer(result);
+            // Check the result.
+            Assert.NotNull(result);
+            Assert.True(XmlUtilities.Compare(expectedXmlDocument, result));
         }
 
-        ///// <summary>
-        ///// Test deserialize null XML Document.
-        ///// </summary>
-        //[Fact]
-        //public void NullObjectDeserializeTest()
-        //{
-        //    const string expectedErrorMessage = "The XML document is not set.";
+        /// <summary>
+        /// Test serialize object in byte array (async).
+        /// </summary>
+        [Fact]
+        public async Task SerializeXmlAsByteArrayAsyncTest()
+        {
+            // Load the resources & the expected XML Document
+            Assembly currentAssembly = Assembly.GetExecutingAssembly();
+            using Stream xmlStream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
+            XmlDocument expectedXmlDocument = new XmlDocument();
+            expectedXmlDocument.Load(xmlStream);
 
-        //    XmlDocument xml = null;
+            // Load the data to serialize
+            IssuesContainer actualContainer = BuildIssuesContainer();
 
-        //    // Test deserialization.
-        //    var error = Assert.Throws<NullXmlDocumentException>(() => XmlUtilities.Deserialize<IssuesContainer>(xml));
+            // Test deserialization.
+            byte[] result = await XmlUtilities.SerializeAsByteArrayAsync(actualContainer, Encoding.UTF8);
 
-        //    // Assert result.
-        //    Assert.NotNull(error);
-        //    Assert.Equal(expectedErrorMessage, error.Message);
-        //}
+            // Check the result.
+            Assert.NotNull(result);
 
-        ///// <summary>
-        ///// Test deserialize invalid XML Document.
-        ///// </summary>
-        //[Fact]
-        //public void InvalidDocument1DeserializeTest()
-        //{
-        //    const string expectedOuterErrorMessage = "An error occured while deserializing a XML document or data.";
-        //    const string expectedErrorMessage = "There is an error in the XML document.";
-        //    const string expectedInnerErrorMessage = "Input string was not in a correct format.";
+            // Load the result into a XML Document.
+            using MemoryStream actualStream = new MemoryStream(result);
+            XmlDocument actualXmlDocument = new XmlDocument();
+            actualXmlDocument.Load(actualStream);
 
-        //    // Load resources.
-        //    Assembly currentAssembly = Assembly.GetExecutingAssembly();
-        //    using Stream xmlStream = currentAssembly.GetManifestResourceStream(INVALID_SAMPLE1_XML_RESOURCE_PATH);
+            Assert.True(XmlUtilities.Compare(expectedXmlDocument, actualXmlDocument));
+        }
 
-        //    // Load XML
-        //    XmlDocument xml = new XmlDocument();
-        //    xml.Load(xmlStream);
+        /// <summary>
+        /// Test serialize object in stream (async).
+        /// </summary>
+        [Fact]
+        public async Task SerializeXmlAsStreamAsyncTest()
+        {
+            // Load the resources & the expected XML Document
+            Assembly currentAssembly = Assembly.GetExecutingAssembly();
+            using Stream xmlStream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
+            XmlDocument expectedXmlDocument = new XmlDocument();
+            expectedXmlDocument.Load(xmlStream);
 
-        //    // Test deserialization.
-        //    var error = Assert.Throws<DeserializeException>(() => XmlUtilities.Deserialize<IssuesContainer>(xml));
+            // Load the data to serialize
+            IssuesContainer actualContainer = BuildIssuesContainer();
 
-        //    // Assert result.
-        //    Assert.NotNull(error);
-        //    Assert.NotNull(error.InnerException);
-        //    Assert.NotNull(error.InnerException.InnerException);
-        //    Assert.IsType<InvalidOperationException>(error.InnerException);
-        //    Assert.IsType<FormatException>(error.InnerException.InnerException);
-        //    Assert.Equal(expectedOuterErrorMessage, error.Message);
-        //    Assert.Equal(expectedErrorMessage, error.InnerException.Message);
-        //    Assert.Equal(expectedInnerErrorMessage, error.InnerException.InnerException.Message);
-        //}
+            // Test deserialization.
+            using Stream result = await XmlUtilities.SerializeAsStreamAsync(actualContainer, Encoding.UTF8);
 
-        ///// <summary>
-        ///// Test deserialize invalid XML Document.
-        ///// </summary>
-        //[Fact]
-        //public void InvalidDocument2DeserializeTest()
-        //{
-        //    const string expectedOuterErrorMessage = "An error occured while deserializing a XML document or data.";
-        //    const string expectedErrorMessage = "There is an error in the XML document.";
-        //    const string expectedInnerErrorMessage = "<issueContainer xmlns='urn:sonarqube.org:2019:8.1'> was not expected.";
+            // Check the result.
+            Assert.NotNull(result);
 
-        //    // Load resources.
-        //    Assembly currentAssembly = Assembly.GetExecutingAssembly();
-        //    using Stream xmlStream = currentAssembly.GetManifestResourceStream(INVALID_SAMPLE2_XML_RESOURCE_PATH);
+            // Load the result into a XML Document.
+            XmlDocument actualXmlDocument = new XmlDocument();
+            actualXmlDocument.Load(result);
 
-        //    // Load XML
-        //    XmlDocument xml = new XmlDocument();
-        //    xml.Load(xmlStream);
+            Assert.True(XmlUtilities.Compare(expectedXmlDocument, actualXmlDocument));
+        }
 
-        //    // Test deserialization.
-        //    var error = Assert.Throws<DeserializeException>(() => XmlUtilities.Deserialize<IssuesContainer>(xml));
+        /// <summary>
+        /// Test serialize null object in XML Document.
+        /// </summary>
+        [Fact]
+        public void SerializeNullXmlTest()
+        {
+            const string expectedErrorMessage = "The object to serialize is not set.";
 
-        //    // Assert result.
-        //    Assert.NotNull(error);
-        //    Assert.NotNull(error.InnerException);
-        //    Assert.NotNull(error.InnerException.InnerException);
-        //    Assert.IsType<InvalidOperationException>(error.InnerException);
-        //    Assert.IsType<InvalidOperationException>(error.InnerException.InnerException);
-        //    Assert.Equal(expectedOuterErrorMessage, error.Message);
-        //    Assert.Equal(expectedErrorMessage, error.InnerException.Message);
-        //    Assert.Equal(expectedInnerErrorMessage, error.InnerException.InnerException.Message);
-        //}
+            // Test deserialization.
+            var error = Assert.Throws<NullObjectToSerializeException>(() => XmlUtilities.Serialize<IssuesContainer>(null));
 
-        ///// <summary>
-        ///// Test deserialize null XML Document element.
-        ///// </summary>
-        //[Fact]
-        //public void NullElementDeserializeTest()
-        //{
-        //    const string expectedErrorMessage = "The XML document is not set.";
+            // Assert result.
+            Assert.NotNull(error);
+            Assert.Equal(expectedErrorMessage, error.Message);
+        }
 
-        //    XmlDocument xml = new XmlDocument();
+        /// <summary>
+        /// Test serialize null object as byte array.
+        /// </summary>
+        [Fact]
+        public void SerializeNullXmlAsByteArrayTest()
+        {
+            const string expectedErrorMessage = "The object to serialize is not set.";
 
-        //    // Test deserialization.
-        //    var error = Assert.Throws<NullXmlDocumentException>(() => XmlUtilities.Deserialize<IssuesContainer>(xml));
+            // Test deserialization.
+            var error = Assert.Throws<NullObjectToSerializeException>(() => XmlUtilities.SerializeAsByteArray<IssuesContainer>(null));
 
-        //    // Assert result.
-        //    Assert.NotNull(error);
-        //    Assert.Equal(expectedErrorMessage, error.Message);
-        //}
+            // Assert result.
+            Assert.NotNull(error);
+            Assert.Equal(expectedErrorMessage, error.Message);
+        }
 
-        ///// <summary>
-        ///// Test deserialize XML data.
-        ///// </summary>
-        //[Fact]
-        //public async Task DeserializeDataTest()
-        //{
-        //    // Load resources.
-        //    Assembly currentAssembly = Assembly.GetExecutingAssembly();
-        //    using Stream stream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
-        //    using MemoryStream xmlStream = new MemoryStream();
+        /// <summary>
+        /// Test serialize null object as stream.
+        /// </summary>
+        [Fact]
+        public void SerializeNullXmlAsStreamTest()
+        {
+            const string expectedErrorMessage = "The object to serialize is not set.";
 
-        //    // Load XML
-        //    await stream.CopyToAsync(xmlStream);
-        //    byte[] xmlData = xmlStream.ToArray();
+            // Test deserialization.
+            var error = Assert.Throws<NullObjectToSerializeException>(() => XmlUtilities.SerializeAsStream<IssuesContainer>(null));
 
-        //    // Test deserialization.
-        //    var result = XmlUtilities.Deserialize<IssuesContainer>(xmlData);
+            // Assert result.
+            Assert.NotNull(error);
+            Assert.Equal(expectedErrorMessage, error.Message);
+        }
 
-        //    // Assert result.
-        //    AssertIssuesContainer(result);
-        //}
+        /// <summary>
+        /// Test serialize null object in XML Document (async).
+        /// </summary>
+        [Fact]
+        public async Task SerializeNullXmlAsyncTest()
+        {
+            const string expectedErrorMessage = "The object to serialize is not set.";
 
-        ///// <summary>
-        ///// Test deserialize invalid XML Document.
-        ///// </summary>
-        //[Fact]
-        //public async Task InvalidData1DeserializeTest()
-        //{
-        //    const string expectedOuterErrorMessage = "An error occured while deserializing a XML document or data.";
-        //    const string expectedErrorMessage = "There is an error in XML document (22, 5).";
-        //    const string expectedInnerErrorMessage = "Input string was not in a correct format.";
+            // Test deserialization.
+            var error = await Assert.ThrowsAsync<NullObjectToSerializeException>(async () => await XmlUtilities.SerializeAsync<IssuesContainer>(null));
 
-        //    // Load resources.
-        //    Assembly currentAssembly = Assembly.GetExecutingAssembly();
-        //    using Stream stream = currentAssembly.GetManifestResourceStream(INVALID_SAMPLE1_XML_RESOURCE_PATH);
-        //    using MemoryStream xmlStream = new MemoryStream();
+            // Assert result.
+            Assert.NotNull(error);
+            Assert.Equal(expectedErrorMessage, error.Message);
+        }
 
-        //    // Load XML
-        //    await stream.CopyToAsync(xmlStream);
-        //    byte[] xmlData = xmlStream.ToArray();
+        /// <summary>
+        /// Test serialize null object in byte array (async).
+        /// </summary>
+        [Fact]
+        public async Task SerializeNullXmlAsByteArrayAsyncTest()
+        {
+            const string expectedErrorMessage = "The object to serialize is not set.";
 
-        //    // Test deserialization.
-        //    var error = Assert.Throws<DeserializeException>(() => XmlUtilities.Deserialize<IssuesContainer>(xmlData));
+            // Test deserialization.
+            var error = await Assert.ThrowsAsync<NullObjectToSerializeException>(async () => await XmlUtilities.SerializeAsByteArrayAsync<IssuesContainer>(null));
 
-        //    // Assert result.
-        //    Assert.NotNull(error);
-        //    Assert.NotNull(error.InnerException);
-        //    Assert.NotNull(error.InnerException.InnerException);
-        //    Assert.IsType<InvalidOperationException>(error.InnerException);
-        //    Assert.IsType<FormatException>(error.InnerException.InnerException);
-        //    Assert.Equal(expectedOuterErrorMessage, error.Message);
-        //    Assert.Equal(expectedErrorMessage, error.InnerException.Message);
-        //    Assert.Equal(expectedInnerErrorMessage, error.InnerException.InnerException.Message);
-        //}
+            // Assert result.
+            Assert.NotNull(error);
+            Assert.Equal(expectedErrorMessage, error.Message);
+        }
 
-        ///// <summary>
-        ///// Test deserialize invalid XML Document.
-        ///// </summary>
-        //[Fact]
-        //public async Task InvalidData2DeserializeTest()
-        //{
-        //    const string expectedOuterErrorMessage = "An error occured while deserializing a XML document or data.";
-        //    const string expectedErrorMessage = "There is an error in XML document (2, 2).";
-        //    const string expectedInnerErrorMessage = "<issueContainer xmlns='urn:sonarqube.org:2019:8.1'> was not expected.";
+        /// <summary>
+        /// Test serialize null object in stream (async).
+        /// </summary>
+        [Fact]
+        public async Task SerializeNullXmlAsStreamAsyncTest()
+        {
+            const string expectedErrorMessage = "The object to serialize is not set.";
 
-        //    // Load resources.
-        //    Assembly currentAssembly = Assembly.GetExecutingAssembly();
-        //    using Stream stream = currentAssembly.GetManifestResourceStream(INVALID_SAMPLE2_XML_RESOURCE_PATH);
-        //    using MemoryStream xmlStream = new MemoryStream();
+            // Test deserialization.
+            var error = await Assert.ThrowsAsync<NullObjectToSerializeException>(async () => await XmlUtilities.SerializeAsStreamAsync<IssuesContainer>(null));
 
-        //    // Load XML
-        //    await stream.CopyToAsync(xmlStream);
-        //    byte[] xmlData = xmlStream.ToArray();
-
-        //    // Test deserialization.
-        //    var error = Assert.Throws<DeserializeException>(() => XmlUtilities.Deserialize<IssuesContainer>(xmlData));
-
-        //    // Assert result.
-        //    Assert.NotNull(error);
-        //    Assert.NotNull(error.InnerException);
-        //    Assert.NotNull(error.InnerException.InnerException);
-        //    Assert.IsType<InvalidOperationException>(error.InnerException);
-        //    Assert.IsType<InvalidOperationException>(error.InnerException.InnerException);
-        //    Assert.Equal(expectedOuterErrorMessage, error.Message);
-        //    Assert.Equal(expectedErrorMessage, error.InnerException.Message);
-        //    Assert.Equal(expectedInnerErrorMessage, error.InnerException.InnerException.Message);
-        //}
-
-        ///// <summary>
-        ///// Test deserialize null XML data.
-        ///// </summary>
-        //[Fact]
-        //public void NullDataDeserializeTest()
-        //{
-        //    const string expectedErrorMessage = "The XML data are not set.";
-
-        //    byte[] xmlData = null;
-
-        //    // Test deserialization.
-        //    var error = Assert.Throws<NullXmlDataException>(() => XmlUtilities.Deserialize<IssuesContainer>(xmlData));
-
-        //    // Assert result.
-        //    Assert.NotNull(error);
-        //    Assert.Equal(expectedErrorMessage, error.Message);
-        //}
-
-        ///// <summary>
-        ///// Test deserialize empty XML data.
-        ///// </summary>
-        //[Fact]
-        //public void EmptyDataDeserializeTest()
-        //{
-        //    const string expectedOuterErrorMessage = "An error occured while deserializing a XML document or data.";
-        //    const string expectedErrorMessage = "There is an error in XML document (0, 0).";
-        //    const string expectedInnerErrorMessage = "Root element is missing.";
-
-        //    byte[] xmlData = new byte[0];
-
-        //    // Test deserialization.
-        //    var error = Assert.Throws<DeserializeException>(() => XmlUtilities.Deserialize<IssuesContainer>(xmlData));
-
-        //    // Assert result.
-        //    Assert.NotNull(error);
-        //    Assert.NotNull(error.InnerException);
-        //    Assert.NotNull(error.InnerException.InnerException);
-        //    Assert.IsType<InvalidOperationException>(error.InnerException);
-        //    Assert.IsType<XmlException>(error.InnerException.InnerException);
-        //    Assert.Equal(expectedOuterErrorMessage, error.Message);
-        //    Assert.Equal(expectedErrorMessage, error.InnerException.Message);
-        //    Assert.Equal(expectedInnerErrorMessage, error.InnerException.InnerException.Message);
-        //}
+            // Assert result.
+            Assert.NotNull(error);
+            Assert.Equal(expectedErrorMessage, error.Message);
+        }
 
         /// <summary>
         /// Build IssuesContainer.

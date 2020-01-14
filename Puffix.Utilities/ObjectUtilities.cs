@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 namespace Puffix.Utilities
 {
     /// <summary>
-    /// Helper for object serialization.
+    /// Helper for objects.
     /// </summary>
-    public static class ObjectSerializer
+    public static class ObjectUtilities
     {
         /// <summary>
         /// Clone one object.

@@ -61,6 +61,15 @@ namespace Puffix.Utilities.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occured while comparing two XML documents..
+        /// </summary>
+        public static string CompareException {
+            get {
+                return ResourceManager.GetString("CompareException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occured while deserializing a XML document or data..
         /// </summary>
         public static string DeserializeException {
@@ -79,6 +88,15 @@ namespace Puffix.Utilities.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The object to serialize is not set..
+        /// </summary>
+        public static string NullObjectToSerializeException {
+            get {
+                return ResourceManager.GetString("NullObjectToSerializeException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The XML data are not set..
         /// </summary>
         public static string NullXmlDataException {
@@ -93,6 +111,15 @@ namespace Puffix.Utilities.Exceptions {
         public static string NullXmlDocumentException {
             get {
                 return ResourceManager.GetString("NullXmlDocumentException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occured while serializing an object into XML document or data..
+        /// </summary>
+        public static string SerializeException {
+            get {
+                return ResourceManager.GetString("SerializeException", resourceCulture);
             }
         }
         

@@ -117,17 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CompareException" xml:space="preserve">
+    <value>Une erreur s'est produite lors de la comparaison de deux documents XML.</value>
+  </data>
   <data name="DeserializeException" xml:space="preserve">
     <value>Une erreur s'est produite lors de la désérialisation d'un documents (ou de données) XML.</value>
   </data>
   <data name="LoadingSchemaSetException" xml:space="preserve">
     <value>Des erreurs ({0} erreurs) de chargement et de validation des schémas (XSD) ont été rencontrées.</value>
   </data>
+  <data name="NullObjectToSerializeException" xml:space="preserve">
+    <value>L'objet à sérialiser n'est pas défini.</value>
+  </data>
   <data name="NullXmlDataException" xml:space="preserve">
     <value>Les données XML ne sont pas spécifiées.</value>
   </data>
   <data name="NullXmlDocumentException" xml:space="preserve">
     <value>Le document XML n'est pas sépcifié.</value>
+  </data>
+  <data name="SerializeException" xml:space="preserve">
+    <value>Une erreur s'est produite lors de la sérialisation d'un objet en XML.</value>
   </data>
   <data name="XmlValidationException" xml:space="preserve">
     <value>Des erreurs ({0} erreurs) ont été rencontrées lors de la validation d'un document XML.</value>
