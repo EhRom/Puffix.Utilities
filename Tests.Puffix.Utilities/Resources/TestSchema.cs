@@ -27,6 +27,14 @@ namespace Tests.Puffix.Utilities.Resources
         /// </summary>
         [XmlElement("issue")]
         public List<Issue> Issues { get; set; }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public IssuesContainer()
+        {
+            Issues = new List<Issue>();
+        }
     }
 
     /// <summary>
@@ -95,6 +103,14 @@ namespace Tests.Puffix.Utilities.Resources
         /// </summary>
         [XmlElement("secondaryLocations")]
         public List<LocationType> SecondaryLocations { get; set; }
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public Issue()
+        {
+            SecondaryLocations = new List<LocationType>();
+        }
     }
 
     /// <summary>
