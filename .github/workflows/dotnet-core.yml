@@ -23,3 +23,5 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+    - name: Publish Nuget Package
+      run: dotnet nuget push /home/runner/work/Puffix.Utilities/Puffix.Utilities/Puffix.Utilities/bin/Release/Puffix.Utilities.0.1.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
