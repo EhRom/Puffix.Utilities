@@ -5,7 +5,13 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Puffix.Utilities", "Puffix.Utilities\Puffix.Utilities.csproj", "{A28A7DE7-C34A-41F6-8417-6A7F13B2C426}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Puffix.Utilities", "Tests.Puffix.Utilities\Tests.Puffix.Utilities.csproj", "{91C2FEAF-E950-4A44-827A-714BAC4B92FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Puffix.Utilities", "Tests.Puffix.Utilities\Tests.Puffix.Utilities.csproj", "{91C2FEAF-E950-4A44-827A-714BAC4B92FB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GithubBuild", "GithubBuild", "{41A580D5-2CE6-4867-8D09-F38B17B3A600}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
+		.github\workflows\dotnet-core.yml = .github\workflows\dotnet-core.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
