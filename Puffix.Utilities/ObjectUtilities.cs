@@ -20,18 +20,16 @@ namespace Puffix.Utilities
         {
             ObjectT clonedObject;
 
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                
-                // Serialisation de l'objet.
-                formatter.Serialize(memoryStream, objectToClone);
-                memoryStream.Flush();
-                memoryStream.Seek(0, SeekOrigin.Begin);
+            using MemoryStream memoryStream = new MemoryStream();
+            BinaryFormatter formatter = new BinaryFormatter();
 
-                // Deserialisation de l'objet, dans une nouvelle instance.
-                clonedObject = (ObjectT)formatter.Deserialize(memoryStream);
-            }
+            // Serialisation de l'objet.
+            formatter.Serialize(memoryStream, objectToClone);
+            memoryStream.Flush();
+            memoryStream.Seek(0, SeekOrigin.Begin);
+
+            // Deserialisation de l'objet, dans une nouvelle instance.
+            clonedObject = (ObjectT)formatter.Deserialize(memoryStream);
 
             return clonedObject;
         }
@@ -47,18 +45,16 @@ namespace Puffix.Utilities
         {
             ObjectT clonedObject;
 
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-               
-                // Serialize the object.
-                formatter.Serialize(memoryStream, objectToClone);
-                await memoryStream.FlushAsync();
-                memoryStream.Seek(0, SeekOrigin.Begin);
+            using MemoryStream memoryStream = new MemoryStream();
+            BinaryFormatter formatter = new BinaryFormatter();
 
-                // Deserialize the object for the cloned instance.
-                clonedObject = (ObjectT)formatter.Deserialize(memoryStream);
-            }
+            // Serialize the object.
+            formatter.Serialize(memoryStream, objectToClone);
+            await memoryStream.FlushAsync();
+            memoryStream.Seek(0, SeekOrigin.Begin);
+
+            // Deserialize the object for the cloned instance.
+            clonedObject = (ObjectT)formatter.Deserialize(memoryStream);
 
             return clonedObject;
         }
