@@ -9,7 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Puffix.Utilities", "T
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GithubBuild", "GithubBuild", "{41A580D5-2CE6-4867-8D09-F38B17B3A600}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
 		.github\workflows\dotnet-core.yml = .github\workflows\dotnet-core.yml
 	EndProjectSection
 EndProject
