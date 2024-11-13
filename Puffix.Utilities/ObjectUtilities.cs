@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Puffix.Utilities
@@ -9,6 +9,11 @@ namespace Puffix.Utilities
     /// </summary>
     public static class ObjectUtilities
     {
+        private readonly static JsonSerializerOptions options = new JsonSerializerOptions
+        {
+            IncludeFields = true,
+        };
+
         /// <summary>
         /// Clone one object.
         /// </summary>
@@ -18,20 +23,9 @@ namespace Puffix.Utilities
         public static ObjectT DeepClone<ObjectT>(ObjectT objectToClone)
             where ObjectT : class
         {
-            ObjectT clonedObject;
+            string serializedObject = JsonSerializer.Serialize(objectToClone, options);
 
-            using MemoryStream memoryStream = new MemoryStream();
-            BinaryFormatter formatter = new BinaryFormatter();
-
-            // Serialisation de l'objet.
-            formatter.Serialize(memoryStream, objectToClone);
-            memoryStream.Flush();
-            memoryStream.Seek(0, SeekOrigin.Begin);
-
-            // Deserialisation de l'objet, dans une nouvelle instance.
-            clonedObject = (ObjectT)formatter.Deserialize(memoryStream);
-
-            return clonedObject;
+            return JsonSerializer.Deserialize<ObjectT>(serializedObject, options);
         }
 
         /// <summary>
@@ -43,20 +37,11 @@ namespace Puffix.Utilities
         public async static Task<ObjectT> DeepCloneAsync<ObjectT>(ObjectT objectToClone)
             where ObjectT : class
         {
-            ObjectT clonedObject;
-
             using MemoryStream memoryStream = new MemoryStream();
-            BinaryFormatter formatter = new BinaryFormatter();
 
-            // Serialize the object.
-            formatter.Serialize(memoryStream, objectToClone);
-            await memoryStream.FlushAsync();
-            memoryStream.Seek(0, SeekOrigin.Begin);
+            await JsonSerializer.SerializeAsync(memoryStream, objectToClone, options);
 
-            // Deserialize the object for the cloned instance.
-            clonedObject = (ObjectT)formatter.Deserialize(memoryStream);
-
-            return clonedObject;
+            return await JsonSerializer.DeserializeAsync<ObjectT>(memoryStream, options);
         }
     }
 }

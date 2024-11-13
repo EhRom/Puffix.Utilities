@@ -2,8 +2,6 @@
 using Puffix.Exceptions.Basic;
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
 
 namespace Puffix.Utilities.Exceptions
 {
@@ -11,10 +9,7 @@ namespace Puffix.Utilities.Exceptions
     /// Base class for exeption management for the class <c>XmlUtilities.</c>.
     /// </summary>
 	/// <remarks>The error message patterns are stored in the file XmlUtilitiesExceptionsResources.resx. The key is the exception class name.</remarks>
-    [Serializable]
-#pragma warning disable S3376
     public abstract class XmlUtilitiesExceptions : BaseException
-#pragma warning restore S3376
     {
         /// <summary>
         /// Logger.
@@ -39,17 +34,6 @@ namespace Puffix.Utilities.Exceptions
         protected XmlUtilitiesExceptions(Type exceptionType, Exception innerException, params object[] messageParams)
             : base(typeof(XmlUtilitiesExceptionsResources), exceptionType, log, innerException, messageParams)
         { }
-
-        #region Exception serialization.
-        /// <summary>
-        /// Constructor for the serialization (DO NOT MODIFY).
-        /// </summary>
-        /// <param name="info">Serialization information.</param>
-        /// <param name="context">Context.</param>
-        protected XmlUtilitiesExceptions(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        { }
-        #endregion
     }
 }
 
@@ -58,7 +42,6 @@ namespace Puffix.Utilities.Exceptions.XmlUtilities
     /// <summary>
     /// Error when the XML document is not set.
     /// </summary>
-    [Serializable]
     public sealed class NullXmlDocumentException : XmlUtilitiesExceptions
     {
         /// <summary>
@@ -67,23 +50,11 @@ namespace Puffix.Utilities.Exceptions.XmlUtilities
         public NullXmlDocumentException()
             : base(typeof(NullXmlDocumentException))
         { }
-
-        #region Exception serialization.
-        /// <summary>
-        /// Constructor for the serialization (DO NOT MODIFY).
-        /// </summary>
-        /// <param name="info">Serialization information.</param>
-        /// <param name="context">Context.</param>
-        private NullXmlDocumentException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        { }
-        #endregion
     }
 
     /// <summary>
     /// Error when the XML data is not set.
     /// </summary>
-    [Serializable]
     public sealed class NullXmlDataException : XmlUtilitiesExceptions
     {
         /// <summary>
@@ -92,23 +63,11 @@ namespace Puffix.Utilities.Exceptions.XmlUtilities
         public NullXmlDataException()
             : base(typeof(NullXmlDataException))
         { }
-
-        #region Exception serialization.
-        /// <summary>
-        /// Constructor for the serialization (DO NOT MODIFY).
-        /// </summary>
-        /// <param name="info">Serialization information.</param>
-        /// <param name="context">Context.</param>
-        private NullXmlDataException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        { }
-        #endregion
     }
 
     /// <summary>
     /// Error while deserializing a XML document or data.
     /// </summary>
-    [Serializable]
     public sealed class DeserializeException : XmlUtilitiesExceptions
     {
         /// <summary>
@@ -118,23 +77,11 @@ namespace Puffix.Utilities.Exceptions.XmlUtilities
         public DeserializeException(Exception innerException)
             : base(typeof(DeserializeException), innerException)
         { }
-
-        #region Exception serialization.
-        /// <summary>
-        /// Constructor for the serialization (DO NOT MODIFY).
-        /// </summary>
-        /// <param name="info">Serialization information.</param>
-        /// <param name="context">Context.</param>
-        private DeserializeException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        { }
-        #endregion
     }
 
     /// <summary>
     /// Error when the object to serialize is not set.
     /// </summary>
-    [Serializable]
     public sealed class NullObjectToSerializeException : XmlUtilitiesExceptions
     {
         /// <summary>
@@ -143,23 +90,11 @@ namespace Puffix.Utilities.Exceptions.XmlUtilities
         public NullObjectToSerializeException()
             : base(typeof(NullObjectToSerializeException))
         { }
-
-        #region Exception serialization.
-        /// <summary>
-        /// Constructor for the serialization (DO NOT MODIFY).
-        /// </summary>
-        /// <param name="info">Serialization information.</param>
-        /// <param name="context">Context.</param>
-        private NullObjectToSerializeException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        { }
-        #endregion
     }
 
     /// <summary>
     /// Error while serializing an object.
     /// </summary>
-    [Serializable]
     public sealed class SerializeException : XmlUtilitiesExceptions
     {
         /// <summary>
@@ -169,23 +104,11 @@ namespace Puffix.Utilities.Exceptions.XmlUtilities
         public SerializeException(Exception innerException)
             : base(typeof(SerializeException), innerException)
         { }
-
-        #region Exception serialization.
-        /// <summary>
-        /// Constructor for the serialization (DO NOT MODIFY).
-        /// </summary>
-        /// <param name="info">Serialization information.</param>
-        /// <param name="context">Context.</param>
-        private SerializeException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        { }
-        #endregion
     }
 
     /// <summary>
     /// Error when loading a XML schema set.
     /// </summary>
-    [Serializable]
     public sealed class LoadingSchemaSetException : XmlUtilitiesExceptions
     {
         /// <summary>
@@ -201,43 +124,11 @@ namespace Puffix.Utilities.Exceptions.XmlUtilities
         {
             ValidationErrors = validationErrors;
         }
-
-        #region Exception serialization.
-        /// <summary>
-        /// Constructor for the serialization (DO NOT MODIFY).
-        /// </summary>
-        /// <param name="info">Serialization information.</param>
-        /// <param name="context">Context.</param>
-        private LoadingSchemaSetException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-            ValidationErrors = info.GetValue(nameof(ValidationErrors), typeof(List<Exception>)) as IReadOnlyCollection<Exception>;
-        }
-
-        /// <summary>
-        /// Serialize the class elements (technical, DO NOT MODIFY).
-        /// </summary>
-        /// <param name="info">Serialization information.</param>
-        /// <param name="context">Streaming context.</param>
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            if (info == null)
-                throw new ArgumentNullException(nameof(info));
-
-            // Ajout des champs à sérialiser.
-            info.AddValue(nameof(ValidationErrors), ValidationErrors);
-
-            // Appel de la méthode de base.
-            base.GetObjectData(info, context);
-        }
-        #endregion
     }
 
     /// <summary>
     /// Error when validating a XML document.
     /// </summary>
-    [Serializable]
     public sealed class XmlValidationException : XmlUtilitiesExceptions
     {
         /// <summary>
@@ -253,43 +144,11 @@ namespace Puffix.Utilities.Exceptions.XmlUtilities
         {
             ValidationErrors = validationErrors;
         }
-
-        #region Exception serialization.
-        /// <summary>
-        /// Constructor for the serialization (DO NOT MODIFY).
-        /// </summary>
-        /// <param name="info">Serialization information.</param>
-        /// <param name="context">Context.</param>
-        private XmlValidationException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-            ValidationErrors = info.GetValue(nameof(ValidationErrors), typeof(List<Exception>)) as IReadOnlyCollection<Exception>;
-        }
-
-        /// <summary>
-        /// Serialize the class elements (technical, DO NOT MODIFY).
-        /// </summary>
-        /// <param name="info">Serialization information.</param>
-        /// <param name="context">Streaming context.</param>
-        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            if (info == null)
-                throw new ArgumentNullException(nameof(info));
-
-            // Ajout des champs à sérialiser.
-            info.AddValue(nameof(ValidationErrors), ValidationErrors);
-
-            // Appel de la méthode de base.
-            base.GetObjectData(info, context);
-        }
-        #endregion
     }
 
     /// <summary>
     /// Error while comparing two XML documents.
     /// </summary>
-    [Serializable]
     public sealed class CompareException : XmlUtilitiesExceptions
     {
         /// <summary>
@@ -299,16 +158,5 @@ namespace Puffix.Utilities.Exceptions.XmlUtilities
         public CompareException(Exception innerException)
             : base(typeof(CompareException), innerException)
         { }
-
-        #region Exception serialization.
-        /// <summary>
-        /// Constructor for the serialization (DO NOT MODIFY).
-        /// </summary>
-        /// <param name="info">Serialization information.</param>
-        /// <param name="context">Context.</param>
-        private CompareException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        { }
-        #endregion
     }
 }

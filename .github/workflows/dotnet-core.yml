@@ -6,17 +6,21 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  DOTNET_VERSION: '9.0.x'
+  PACKAGE_VERSION: 3.3.0
+
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '6.0.x'
+        dotnet-version: ${{ env.DOTNET_VERSION }}
     - name: Install dependencies
       run: dotnet restore
     - name: Build
@@ -24,4 +28,4 @@ jobs:
     - name: Test
       run: dotnet test --no-restore --verbosity normal
     - name: Publish Nuget Package
-      run: dotnet nuget push /home/runner/work/Puffix.Utilities/Puffix.Utilities/Puffix.Utilities/bin/Release/Puffix.Utilities.2.0.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      run: dotnet nuget push /home/runner/work/Puffix.Utilities/Puffix.Utilities/Puffix.Utilities/bin/Release/Puffix.Utilities.${{ env.PACKAGE_VERSION }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
