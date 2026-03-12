@@ -228,7 +228,7 @@ public class XmlUtilitiesTests
     {
         const string expectedOuterErrorMessage = "An error occured while deserializing a XML document or data.";
         const string expectedErrorMessage = "There is an error in XML document (22, 5).";
-        const string expectedInnerErrorMessage = "Input string was not in a correct format.";
+        const string expectedInnerErrorMessage = "The input string 'AH AH, c'est une chaîne de caractères.' was not in a correct format."; // "Input string was not in a correct format.";
 
         // Load resources.
         Assembly currentAssembly = Assembly.GetExecutingAssembly();
@@ -238,6 +238,8 @@ public class XmlUtilitiesTests
         // Load XML
         await stream.CopyToAsync(xmlStream);
         byte[] xmlData = xmlStream.ToArray();
+
+
 
         // Test deserialization.
         DeserializeException error = Assert.Throws<DeserializeException>(() => XmlUtilities.Deserialize<IssuesContainer>(xmlData));
