@@ -21,14 +21,14 @@ public sealed class XmlUtilities
     /// <summary>
     /// Collection of the validation erros.
     /// </summary>
-    private readonly List<Exception> validationErrors;
+    private readonly ICollection<Exception> validationErrors;
 
     /// <summary>
     /// Constructor.
     /// </summary>
     private XmlUtilities()
     {
-        validationErrors = new List<Exception>();
+        validationErrors = [];
     }
 
     #region Serialization / Deserialization
@@ -166,7 +166,7 @@ public sealed class XmlUtilities
             };
 
             // Initialize the stream. The caller should manage the stream lifecycle.
-            var stream = new MemoryStream();
+            MemoryStream stream = new MemoryStream();
 
             // Initialize the writter and the serialization.
             using XmlWriter writer = XmlWriter.Create(stream, xmlWriterSettings);
@@ -203,7 +203,7 @@ public sealed class XmlUtilities
             // Serialize the object.
             using Stream stream = await SerializeAsStreamAsync(objectToSerialize, encoding, indented);
 
-            // Load the XML content into a document..
+            // Load the XML content into a document.
             XmlDocument xml = new XmlDocument();
             xml.Load(stream);
 
@@ -309,7 +309,7 @@ public sealed class XmlUtilities
 
         // Load and validate the collection of the XSD (streams).
         if (!utilities.LoadXmlSchemaSet(schemasStreamCollection, out XmlSchemaSet xmlSchemaSet))
-            throw new LoadingSchemaSetException(ObjectUtilities.DeepClone(utilities.validationErrors));
+            throw new LoadingSchemaSetException(ObjectUtilities.DeepClone(utilities.validationErrors.ToList()));
 
         return xmlSchemaSet;
     }
@@ -329,7 +329,7 @@ public sealed class XmlUtilities
         bool isValid = utilities.LoadXmlSchemaSet(schemasStreamCollection, out xmlSchemaSet);
 
         // Encapsulate load and validation errors.
-        errors = isValid ? null : new LoadingSchemaSetException(ObjectUtilities.DeepClone(utilities.validationErrors));
+        errors = isValid ? null : new LoadingSchemaSetException(ObjectUtilities.DeepClone(utilities.validationErrors.ToList()));
 
         return isValid;
     }
@@ -415,7 +415,7 @@ public sealed class XmlUtilities
 
         // Throw error if needed.
         if (!isValid && throwError)
-            throw new XmlValidationException(ObjectUtilities.DeepClone(utilities.validationErrors));
+            throw new XmlValidationException(ObjectUtilities.DeepClone(utilities.validationErrors.ToList()));
 
         return isValid;
     }
@@ -435,7 +435,7 @@ public sealed class XmlUtilities
         bool isValid = utilities.ValidateXml(xmlDocument, xmlSchemaSet);
 
         // Encapsulate validation errors.
-        errors = isValid ? null : new XmlValidationException(ObjectUtilities.DeepClone(utilities.validationErrors));
+        errors = isValid ? null : new XmlValidationException(ObjectUtilities.DeepClone(utilities.validationErrors.ToList()));
 
         return isValid;
     }
@@ -516,7 +516,7 @@ public sealed class XmlUtilities
         if (nodesToEscape != null && nodesToEscape.Count > 0)
         {
             // Turns the dictionary into a list.
-            List<XName> nodesToEscapeCollection = new List<XName>();
+            List<XName> nodesToEscapeCollection = [];
             foreach (var key in nodesToEscape.Keys)
             {
                 nodesToEscapeCollection.AddRange(nodesToEscape[key].Select(name => XName.Get(name, key)));
@@ -525,15 +525,15 @@ public sealed class XmlUtilities
             // Neutralize the nodes to skip in the comparison: the value is set to the empty value.
             foreach (var nodeToEscape in nodesToEscapeCollection)
             {
-                var sourceElementsToEscape = source.Descendants(nodeToEscape);
-                var targetElementsToEscape = target.Descendants(nodeToEscape);
+                IEnumerable<XElement> sourceElementsToEscape = source.Descendants(nodeToEscape);
+                IEnumerable<XElement> targetElementsToEscape = target.Descendants(nodeToEscape);
 
-                foreach (var sourceElementToEscape in sourceElementsToEscape)
+                foreach (XElement sourceElementToEscape in sourceElementsToEscape)
                 {
                     sourceElementToEscape.Value = string.Empty;
                 }
 
-                foreach (var targetElementToEscape in targetElementsToEscape)
+                foreach (XElement targetElementToEscape in targetElementsToEscape)
                 {
                     targetElementToEscape.Value = string.Empty;
                 }
