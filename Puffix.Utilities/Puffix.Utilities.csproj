@@ -1,53 +1,53 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
-    <AssemblyVersion>3.3.1.0</AssemblyVersion>
-    <FileVersion>3.3.1.0</FileVersion>
-    <Version>3.3.1</Version>
-    <Authors>Puffix.io - Romain Ehret</Authors>
-    <Company>Puffix.io - Romain Ehret</Company>
-    <Description>Puffix Utilities is a set of common utilities for .Net Project.</Description>
-    <Copyright>Copyright 2025 (c) Puffix / Romain Ehret. All rights reserved.</Copyright>
-    <PackageProjectUrl>https://github.com/EhRom/Puffix.Utilities</PackageProjectUrl>
-    <PackageLicenseFile>Licence.txt</PackageLicenseFile>
-    <PackageIcon>icon.png</PackageIcon>
-    <RepositoryUrl>https://github.com/EhRom/Puffix.Utilities</RepositoryUrl>
-    <PackageTags>Utilities XML Serialization Object Puffix</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+		<AssemblyVersion>10.0.5.0</AssemblyVersion>
+		<FileVersion>10.0.5.0</FileVersion>
+		<Version>10.0.5</Version>
+		<Authors>Puffix.io - Romain Ehret</Authors>
+		<Company>Puffix.io - Romain Ehret</Company>
+		<Description>Puffix Utilities is a set of common utilities for .Net Project.</Description>
+		<Copyright>Copyright 2026 (c) Puffix / Romain Ehret. All rights reserved.</Copyright>
+		<PackageProjectUrl>https://github.com/EhRom/Puffix.Utilities</PackageProjectUrl>
+		<PackageLicenseFile>Licence.txt</PackageLicenseFile>
+		<PackageIcon>icon.png</PackageIcon>
+		<RepositoryUrl>https://github.com/EhRom/Puffix.Utilities</RepositoryUrl>
+		<PackageTags>Utilities XML Serialization Object Puffix</PackageTags>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Puffix.Exceptions" Version="10.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Puffix.Exceptions" Version="10.0.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Exceptions\XmlUtilitiesExceptions.cs">
-      <Generator></Generator>
-    </Compile>
-    <Compile Update="Exceptions\XmlUtilitiesExceptionsResources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>XmlUtilitiesExceptionsResources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Exceptions\XmlUtilitiesExceptions.cs">
+			<Generator></Generator>
+		</Compile>
+		<Compile Update="Exceptions\XmlUtilitiesExceptionsResources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>XmlUtilitiesExceptionsResources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Exceptions\XmlUtilitiesExceptionsResources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>XmlUtilitiesExceptionsResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Exceptions\XmlUtilitiesExceptionsResources.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>XmlUtilitiesExceptionsResources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\Resources\icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="Licence.txt">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\Resources\icon.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<None Include="Licence.txt">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 
 </Project>
