@@ -1,10 +1,15 @@
-name: .NET Core
+name: Build & Publish .NET Package
+permissions:
+  contents: read
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main
+    paths:
+      - '**'
+      - '!**.md'
+      - '.github/workflows/*.yml'
 
 env:
   DOTNET_VERSION: '10.0.x'
@@ -16,16 +21,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout
+      id: checkout
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v4
+      id: setup-dotnet
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
+        
     - name: Install dependencies
+      id: dotnet-restore
       run: dotnet restore
+
     - name: Build
+      id: dotnet-build
       run: dotnet build --configuration Release --no-restore
-    # - name: Test
-    #   run: dotnet test --no-restore --verbosity normal
+
+    - name: Test
+      id: dotnet-test
+      run: dotnet test --no-restore --verbosity normal
+
     - name: Publish Nuget Package
+      id: dotnet-nuget-push
       run: dotnet nuget push /home/runner/work/Puffix.Utilities/Puffix.Utilities/Puffix.Utilities/bin/Release/Puffix.Utilities.${{ env.PACKAGE_VERSION }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
