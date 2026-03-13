@@ -401,316 +401,352 @@ public class XmlUtilitiesTests
         }
     }
 
-    ///// <summary>
-    ///// Test serialize object in XML Document.
-    ///// </summary>
-    //[Test]
-    //public void SerializeXmlTest()
-    //{
-    //    // Load the resources & the expected XML Document
-    //    Assembly currentAssembly = Assembly.GetExecutingAssembly();
-    //    using Stream xmlStream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
-    //    XmlDocument expectedXmlDocument = new XmlDocument();
-    //    expectedXmlDocument.Load(xmlStream);
+    /// <summary>
+    /// Test serialize object in XML Document.
+    /// </summary>
+    [Test]
+    public void SerializeXmlTest()
+    {
+        // Load the resources & the expected XML Document
+        Assembly currentAssembly = Assembly.GetExecutingAssembly();
+        using Stream xmlStream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
+        XmlDocument expectedXmlDocument = new XmlDocument();
+        expectedXmlDocument.Load(xmlStream);
 
-    //    // Load the data to serialize
-    //    IssuesContainer actualContainer = BuildIssuesContainer();
+        // Load the data to serialize
+        IssuesContainer actualContainer = BuildIssuesContainer();
 
-    //    // Test deserialization.
-    //    XmlDocument result = XmlUtilities.Serialize(actualContainer, Encoding.UTF8);
+        // Test deserialization.
+        XmlDocument result = XmlUtilities.Serialize(actualContainer, Encoding.UTF8);
 
-    //    // Check the result.
-    //    Assert.NotNull(result);
-    //    Assert.True(XmlUtilities.Compare(expectedXmlDocument, result));
-    //}
+        // Check the result.
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result, Is.Not.Null);
+            Assert.That(XmlUtilities.Compare(expectedXmlDocument, result), Is.True);
+        }
+    }
 
-    ///// <summary>
-    ///// Test serialize object as byte array.
-    ///// </summary>
-    //[Test]
-    //public void SerializeXmlAsByteArrayTest()
-    //{
-    //    // Load the resources & the expected XML Document
-    //    Assembly currentAssembly = Assembly.GetExecutingAssembly();
-    //    using Stream xmlStream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
-    //    XmlDocument expectedXmlDocument = new XmlDocument();
-    //    expectedXmlDocument.Load(xmlStream);
+    /// <summary>
+    /// Test serialize object as byte array.
+    /// </summary>
+    [Test]
+    public void SerializeXmlAsByteArrayTest()
+    {
+        // Load the resources & the expected XML Document
+        Assembly currentAssembly = Assembly.GetExecutingAssembly();
+        using Stream xmlStream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
+        XmlDocument expectedXmlDocument = new XmlDocument();
+        expectedXmlDocument.Load(xmlStream);
 
-    //    // Load the data to serialize
-    //    IssuesContainer actualContainer = BuildIssuesContainer();
+        // Load the data to serialize
+        IssuesContainer actualContainer = BuildIssuesContainer();
 
-    //    // Test deserialization.
-    //    byte[] result = XmlUtilities.SerializeAsByteArray(actualContainer, Encoding.UTF8, true);
+        // Test deserialization.
+        byte[] result = XmlUtilities.SerializeAsByteArray(actualContainer, Encoding.UTF8, true);
 
-    //    // Check the result.
-    //    Assert.NotNull(result);
+        // Check the result.
+        using (Assert.EnterMultipleScope())
+        {
+            // Load the result into a XML Document.
+            using MemoryStream actualStream = new MemoryStream(result);
+            XmlDocument actualXmlDocument = new XmlDocument();
+            actualXmlDocument.Load(actualStream);
 
-    //    // Load the result into a XML Document.
-    //    using MemoryStream actualStream = new MemoryStream(result);
-    //    XmlDocument actualXmlDocument = new XmlDocument();
-    //    actualXmlDocument.Load(actualStream);
 
-    //    Assert.True(XmlUtilities.Compare(expectedXmlDocument, actualXmlDocument));
-    //}
+            Assert.That(result, Is.Not.Null);
+            Assert.That(XmlUtilities.Compare(expectedXmlDocument, actualXmlDocument), Is.True);
+        }
+    }
 
-    ///// <summary>
-    ///// Test serialize object as stream.
-    ///// </summary>
-    //[Test]
-    //public void SerializeXmlAsStreamTest()
-    //{
-    //    // Load the resources & the expected XML Document
-    //    Assembly currentAssembly = Assembly.GetExecutingAssembly();
-    //    using Stream xmlStream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
-    //    XmlDocument expectedXmlDocument = new XmlDocument();
-    //    expectedXmlDocument.Load(xmlStream);
+    /// <summary>
+    /// Test serialize object as stream.
+    /// </summary>
+    [Test]
+    public void SerializeXmlAsStreamTest()
+    {
+        // Load the resources & the expected XML Document
+        Assembly currentAssembly = Assembly.GetExecutingAssembly();
+        using Stream xmlStream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
+        XmlDocument expectedXmlDocument = new XmlDocument();
+        expectedXmlDocument.Load(xmlStream);
 
-    //    // Load the data to serialize
-    //    IssuesContainer actualContainer = BuildIssuesContainer();
+        // Load the data to serialize
+        IssuesContainer actualContainer = BuildIssuesContainer();
 
-    //    // Test deserialization.
-    //    using Stream result = XmlUtilities.SerializeAsStream(actualContainer, Encoding.UTF8, false);
+        // Test deserialization.
+        using Stream result = XmlUtilities.SerializeAsStream(actualContainer, Encoding.UTF8, false);
 
-    //    // Check the result.
-    //    Assert.NotNull(result);
+        // Check the result.
+        using (Assert.EnterMultipleScope())
+        {
+            // Load the result into a XML Document.
+            XmlDocument actualXmlDocument = new XmlDocument();
+            actualXmlDocument.Load(result);
 
-    //    // Load the result into a XML Document.
-    //    XmlDocument actualXmlDocument = new XmlDocument();
-    //    actualXmlDocument.Load(result);
 
-    //    Assert.True(XmlUtilities.Compare(expectedXmlDocument, actualXmlDocument));
-    //}
+            Assert.That(result, Is.Not.Null);
+            Assert.That(XmlUtilities.Compare(expectedXmlDocument, actualXmlDocument), Is.True);
+        }
+    }
 
-    ///// <summary>
-    ///// Test serialize object in XML Document (async).
-    ///// </summary>
-    //[Test]
-    //public async Task SerializeXmlAsyncTest()
-    //{
-    //    // Load resources.
-    //    Assembly currentAssembly = Assembly.GetExecutingAssembly();
-    //    using Stream xmlStream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
+    /// <summary>
+    /// Test serialize object in XML Document (async).
+    /// </summary>
+    [Test]
+    public async Task SerializeXmlAsyncTest()
+    {
+        // Load resources.
+        Assembly currentAssembly = Assembly.GetExecutingAssembly();
+        using Stream xmlStream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
 
-    //    // Load XML
-    //    XmlDocument expectedXmlDocument = new XmlDocument();
-    //    expectedXmlDocument.Load(xmlStream);
+        // Load XML
+        XmlDocument expectedXmlDocument = new XmlDocument();
+        expectedXmlDocument.Load(xmlStream);
 
-    //    // Load the data to serialize
-    //    IssuesContainer actualContainer = BuildIssuesContainer();
+        // Load the data to serialize
+        IssuesContainer actualContainer = BuildIssuesContainer();
 
-    //    // Test deserialization.
-    //    XmlDocument result = await XmlUtilities.SerializeAsync(actualContainer, Encoding.UTF8);
+        // Test deserialization.
+        XmlDocument result = await XmlUtilities.SerializeAsync(actualContainer, Encoding.UTF8);
 
-    //    // Check the result.
-    //    Assert.NotNull(result);
-    //    Assert.True(XmlUtilities.Compare(expectedXmlDocument, result));
-    //}
+        // Check the result.
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result, Is.Not.Null);
+            Assert.That(XmlUtilities.Compare(expectedXmlDocument, result), Is.True);
+        }
+    }
 
-    ///// <summary>
-    ///// Test serialize object in byte array (async).
-    ///// </summary>
-    //[Test]
-    //public async Task SerializeXmlAsByteArrayAsyncTest()
-    //{
-    //    // Load the resources & the expected XML Document
-    //    Assembly currentAssembly = Assembly.GetExecutingAssembly();
-    //    using Stream xmlStream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
-    //    XmlDocument expectedXmlDocument = new XmlDocument();
-    //    expectedXmlDocument.Load(xmlStream);
+    /// <summary>
+    /// Test serialize object in byte array (async).
+    /// </summary>
+    [Test]
+    public async Task SerializeXmlAsByteArrayAsyncTest()
+    {
+        // Load the resources & the expected XML Document
+        Assembly currentAssembly = Assembly.GetExecutingAssembly();
+        using Stream xmlStream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
+        XmlDocument expectedXmlDocument = new XmlDocument();
+        expectedXmlDocument.Load(xmlStream);
 
-    //    // Load the data to serialize
-    //    IssuesContainer actualContainer = BuildIssuesContainer();
+        // Load the data to serialize
+        IssuesContainer actualContainer = BuildIssuesContainer();
 
-    //    // Test deserialization.
-    //    byte[] result = await XmlUtilities.SerializeAsByteArrayAsync(actualContainer, Encoding.UTF8);
+        // Test deserialization.
+        byte[] result = await XmlUtilities.SerializeAsByteArrayAsync(actualContainer, Encoding.UTF8);
 
-    //    // Check the result.
-    //    Assert.NotNull(result);
+        // Check the result.
+        using (Assert.EnterMultipleScope())
+        {
+            // Load the result into a XML Document.
+            using MemoryStream actualStream = new MemoryStream(result);
+            XmlDocument actualXmlDocument = new XmlDocument();
+            actualXmlDocument.Load(actualStream);
 
-    //    // Load the result into a XML Document.
-    //    using MemoryStream actualStream = new MemoryStream(result);
-    //    XmlDocument actualXmlDocument = new XmlDocument();
-    //    actualXmlDocument.Load(actualStream);
 
-    //    Assert.True(XmlUtilities.Compare(expectedXmlDocument, actualXmlDocument));
-    //}
+            Assert.That(result, Is.Not.Null);
+            Assert.That(XmlUtilities.Compare(expectedXmlDocument, actualXmlDocument), Is.True);
+        }
+    }
 
-    ///// <summary>
-    ///// Test serialize object in stream (async).
-    ///// </summary>
-    //[Test]
-    //public async Task SerializeXmlAsStreamAsyncTest()
-    //{
-    //    // Load the resources & the expected XML Document
-    //    Assembly currentAssembly = Assembly.GetExecutingAssembly();
-    //    using Stream xmlStream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
-    //    XmlDocument expectedXmlDocument = new XmlDocument();
-    //    expectedXmlDocument.Load(xmlStream);
+    /// <summary>
+    /// Test serialize object in stream (async).
+    /// </summary>
+    [Test]
+    public async Task SerializeXmlAsStreamAsyncTest()
+    {
+        // Load the resources & the expected XML Document
+        Assembly currentAssembly = Assembly.GetExecutingAssembly();
+        using Stream xmlStream = currentAssembly.GetManifestResourceStream(SAMPLE_XML_RESOURCE_PATH);
+        XmlDocument expectedXmlDocument = new XmlDocument();
+        expectedXmlDocument.Load(xmlStream);
 
-    //    // Load the data to serialize
-    //    IssuesContainer actualContainer = BuildIssuesContainer();
+        // Load the data to serialize
+        IssuesContainer actualContainer = BuildIssuesContainer();
 
-    //    // Test deserialization.
-    //    using Stream result = await XmlUtilities.SerializeAsStreamAsync(actualContainer, Encoding.UTF8);
+        // Test deserialization.
+        using Stream result = await XmlUtilities.SerializeAsStreamAsync(actualContainer, Encoding.UTF8);
 
-    //    // Check the result.
-    //    Assert.NotNull(result);
+        // Check the result.
+        using (Assert.EnterMultipleScope())
+        {
+            // Load the result into a XML Document.
+            XmlDocument actualXmlDocument = new XmlDocument();
+            actualXmlDocument.Load(result);
 
-    //    // Load the result into a XML Document.
-    //    XmlDocument actualXmlDocument = new XmlDocument();
-    //    actualXmlDocument.Load(result);
 
-    //    Assert.True(XmlUtilities.Compare(expectedXmlDocument, actualXmlDocument));
-    //}
+            Assert.That(result, Is.Not.Null);
+            Assert.That(XmlUtilities.Compare(expectedXmlDocument, actualXmlDocument), Is.True);
+        }
+    }
 
-    ///// <summary>
-    ///// Test serialize null object in XML Document.
-    ///// </summary>
-    //[Test]
-    //public void SerializeNullXmlTest()
-    //{
-    //    const string expectedErrorMessage = "The object to serialize is not set.";
+    /// <summary>
+    /// Test serialize null object in XML Document.
+    /// </summary>
+    [Test]
+    public void SerializeNullXmlTest()
+    {
+        const string expectedErrorMessage = "The object to serialize is not set.";
 
-    //    // Test deserialization.
-    //    var error = Assert.Throws<NullObjectToSerializeException>(() => XmlUtilities.Serialize<IssuesContainer>(null));
+        // Test deserialization.
+        NullObjectToSerializeException error = Assert.Throws<NullObjectToSerializeException>(() => XmlUtilities.Serialize<IssuesContainer>(null));
 
-    //    // Assert result.
-    //    Assert.NotNull(error);
-    //    Assert.Equal(expectedErrorMessage, error.Message);
-    //}
+        // Check the result.
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(error, Is.Not.Null);
+            Assert.That(error.Message, Is.EqualTo(expectedErrorMessage));
+        }
+    }
 
-    ///// <summary>
-    ///// Test serialize null object as byte array.
-    ///// </summary>
-    //[Test]
-    //public void SerializeNullXmlAsByteArrayTest()
-    //{
-    //    const string expectedErrorMessage = "The object to serialize is not set.";
+    /// <summary>
+    /// Test serialize null object as byte array.
+    /// </summary>
+    [Test]
+    public void SerializeNullXmlAsByteArrayTest()
+    {
+        const string expectedErrorMessage = "The object to serialize is not set.";
 
-    //    // Test deserialization.
-    //    var error = Assert.Throws<NullObjectToSerializeException>(() => XmlUtilities.SerializeAsByteArray<IssuesContainer>(null));
+        // Test deserialization.
+        NullObjectToSerializeException error = Assert.Throws<NullObjectToSerializeException>(() => XmlUtilities.SerializeAsByteArray<IssuesContainer>(null));
 
-    //    // Assert result.
-    //    Assert.NotNull(error);
-    //    Assert.Equal(expectedErrorMessage, error.Message);
-    //}
+        // Check the result.
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(error, Is.Not.Null);
+            Assert.That(error.Message, Is.EqualTo(expectedErrorMessage));
+        }
+    }
 
-    ///// <summary>
-    ///// Test serialize null object as stream.
-    ///// </summary>
-    //[Test]
-    //public void SerializeNullXmlAsStreamTest()
-    //{
-    //    const string expectedErrorMessage = "The object to serialize is not set.";
+    /// <summary>
+    /// Test serialize null object as stream.
+    /// </summary>
+    [Test]
+    public void SerializeNullXmlAsStreamTest()
+    {
+        const string expectedErrorMessage = "The object to serialize is not set.";
 
-    //    // Test deserialization.
-    //    var error = Assert.Throws<NullObjectToSerializeException>(() => XmlUtilities.SerializeAsStream<IssuesContainer>(null));
+        // Test deserialization.
+        NullObjectToSerializeException error = Assert.Throws<NullObjectToSerializeException>(() => XmlUtilities.SerializeAsStream<IssuesContainer>(null));
 
-    //    // Assert result.
-    //    Assert.NotNull(error);
-    //    Assert.Equal(expectedErrorMessage, error.Message);
-    //}
+        // Check the result.
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(error, Is.Not.Null);
+            Assert.That(error.Message, Is.EqualTo(expectedErrorMessage));
+        }
+    }
 
-    ///// <summary>
-    ///// Test serialize null object in XML Document (async).
-    ///// </summary>
-    //[Test]
-    //public async Task SerializeNullXmlAsyncTest()
-    //{
-    //    const string expectedErrorMessage = "The object to serialize is not set.";
+    /// <summary>
+    /// Test serialize null object in XML Document (async).
+    /// </summary>
+    [Test]
+    public async Task SerializeNullXmlAsyncTest()
+    {
+        const string expectedErrorMessage = "The object to serialize is not set.";
 
-    //    // Test deserialization.
-    //    var error = await Assert.ThrowsAsync<NullObjectToSerializeException>(async () => await XmlUtilities.SerializeAsync<IssuesContainer>(null));
+        // Test deserialization.
+        NullObjectToSerializeException error = Assert.ThrowsAsync<NullObjectToSerializeException>(async () => await XmlUtilities.SerializeAsync<IssuesContainer>(null));
 
-    //    // Assert result.
-    //    Assert.NotNull(error);
-    //    Assert.Equal(expectedErrorMessage, error.Message);
-    //}
+        // Check the result.
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(error, Is.Not.Null);
+            Assert.That(error.Message, Is.EqualTo(expectedErrorMessage));
+        }
+    }
 
-    ///// <summary>
-    ///// Test serialize null object in byte array (async).
-    ///// </summary>
-    //[Test]
-    //public async Task SerializeNullXmlAsByteArrayAsyncTest()
-    //{
-    //    const string expectedErrorMessage = "The object to serialize is not set.";
+    /// <summary>
+    /// Test serialize null object in byte array (async).
+    /// </summary>
+    [Test]
+    public async Task SerializeNullXmlAsByteArrayAsyncTest()
+    {
+        const string expectedErrorMessage = "The object to serialize is not set.";
 
-    //    // Test deserialization.
-    //    var error = await Assert.ThrowsAsync<NullObjectToSerializeException>(async () => await XmlUtilities.SerializeAsByteArrayAsync<IssuesContainer>(null));
+        // Test deserialization.
+        NullObjectToSerializeException error = Assert.ThrowsAsync<NullObjectToSerializeException>(async () => await XmlUtilities.SerializeAsByteArrayAsync<IssuesContainer>(null));
 
-    //    // Assert result.
-    //    Assert.NotNull(error);
-    //    Assert.Equal(expectedErrorMessage, error.Message);
-    //}
+        // Check the result.
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(error, Is.Not.Null);
+            Assert.That(error.Message, Is.EqualTo(expectedErrorMessage));
+        }
+    }
 
-    ///// <summary>
-    ///// Test serialize null object in stream (async).
-    ///// </summary>
-    //[Test]
-    //public async Task SerializeNullXmlAsStreamAsyncTest()
-    //{
-    //    const string expectedErrorMessage = "The object to serialize is not set.";
+    /// <summary>
+    /// Test serialize null object in stream (async).
+    /// </summary>
+    [Test]
+    public async Task SerializeNullXmlAsStreamAsyncTest()
+    {
+        const string expectedErrorMessage = "The object to serialize is not set.";
 
-    //    // Test deserialization.
-    //    var error = await Assert.ThrowsAsync<NullObjectToSerializeException>(async () => await XmlUtilities.SerializeAsStreamAsync<IssuesContainer>(null));
+        // Test deserialization.
+        NullObjectToSerializeException error = Assert.ThrowsAsync<NullObjectToSerializeException>(async () => await XmlUtilities.SerializeAsStreamAsync<IssuesContainer>(null));
 
-    //    // Assert result.
-    //    Assert.NotNull(error);
-    //    Assert.Equal(expectedErrorMessage, error.Message);
-    //}
+        // Check the result.
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(error, Is.Not.Null);
+            Assert.That(error.Message, Is.EqualTo(expectedErrorMessage));
+        }
+    }
 
-    ///// <summary>
-    ///// Build IssuesContainer.
-    ///// </summary>
-    ///// <param name="result"></param>
-    //private IssuesContainer BuildIssuesContainer()
-    //{
-    //    const string actualEngineId = "1";
-    //    const string actualRuleId1 = "A440";
-    //    const string actualRuleId2 = "A442";
-    //    const Severity actualSeverity1 = Severity.Minor;
-    //    const Severity actualSeverity2 = Severity.Major;
-    //    const string actualPrimaryLocationMessage1 = "Test 1";
-    //    const string actualPrimaryLocationMessage2 = "Test 2";
-    //    const string actualPrimaryFilePath1 = @"C:\Test1.xml";
-    //    const string actualPrimaryFilePath2 = @"C:\Test2.xml";
-    //    const int actualEffortInMinutes1 = 90;
-    //    const int actualEffortInMinutes2 = 1;
+    /// <summary>
+    /// Build IssuesContainer.
+    /// </summary>
+    /// <param name="result"></param>
+    private IssuesContainer BuildIssuesContainer()
+    {
+        const string actualEngineId = "1";
+        const string actualRuleId1 = "A440";
+        const string actualRuleId2 = "A442";
+        const Severity actualSeverity1 = Severity.Minor;
+        const Severity actualSeverity2 = Severity.Major;
+        const string actualPrimaryLocationMessage1 = "Test 1";
+        const string actualPrimaryLocationMessage2 = "Test 2";
+        const string actualPrimaryFilePath1 = @"C:\Test1.xml";
+        const string actualPrimaryFilePath2 = @"C:\Test2.xml";
+        const int actualEffortInMinutes1 = 90;
+        const int actualEffortInMinutes2 = 1;
 
-    //    IssuesContainer container = new IssuesContainer();
-    //    container.Issues.Add(new Issue
-    //    {
-    //        EngineId = actualEngineId,
-    //        RuleId = actualRuleId1,
-    //        Severity = actualSeverity1,
-    //        SeveritySpecified = true,
-    //        PrimaryLocation = new LocationType
-    //        {
-    //            Message = actualPrimaryLocationMessage1,
-    //            FilePath = actualPrimaryFilePath1,
-    //        },
-    //        EffortMinutes = actualEffortInMinutes1,
-    //        EffortMinutesSpecified = true
-    //    });
-    //    container.Issues.Add(new Issue
-    //    {
-    //        EngineId = actualEngineId,
-    //        RuleId = actualRuleId2,
-    //        Severity = actualSeverity2,
-    //        SeveritySpecified = true,
-    //        PrimaryLocation = new LocationType
-    //        {
-    //            Message = actualPrimaryLocationMessage2,
-    //            FilePath = actualPrimaryFilePath2,
-    //        },
-    //        EffortMinutes = actualEffortInMinutes2,
-    //        EffortMinutesSpecified = true
-    //    });
+        IssuesContainer container = new IssuesContainer();
+        container.Issues.Add(new Issue
+        {
+            EngineId = actualEngineId,
+            RuleId = actualRuleId1,
+            Severity = actualSeverity1,
+            SeveritySpecified = true,
+            PrimaryLocation = new LocationType
+            {
+                Message = actualPrimaryLocationMessage1,
+                FilePath = actualPrimaryFilePath1,
+            },
+            EffortMinutes = actualEffortInMinutes1,
+            EffortMinutesSpecified = true
+        });
+        container.Issues.Add(new Issue
+        {
+            EngineId = actualEngineId,
+            RuleId = actualRuleId2,
+            Severity = actualSeverity2,
+            SeveritySpecified = true,
+            PrimaryLocation = new LocationType
+            {
+                Message = actualPrimaryLocationMessage2,
+                FilePath = actualPrimaryFilePath2,
+            },
+            EffortMinutes = actualEffortInMinutes2,
+            EffortMinutesSpecified = true
+        });
 
-    //    return container;
-    //}
+        return container;
+    }
 
-    //#endregion Serialization / Deserialization
+    #endregion Serialization / Deserialization
 
     //#region Validation
 
