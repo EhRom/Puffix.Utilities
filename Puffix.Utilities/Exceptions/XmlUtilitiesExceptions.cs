@@ -114,12 +114,12 @@ namespace Puffix.Utilities.Exceptions.XmlUtilities
         /// <summary>
         /// Load and validation errors.
         /// </summary>
-        public IReadOnlyCollection<Exception> ValidationErrors { get; private set; }
+        public IReadOnlyCollection<XmlValidationError> ValidationErrors { get; private set; }
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public LoadingSchemaSetException(IReadOnlyCollection<Exception> validationErrors)
+        public LoadingSchemaSetException(IReadOnlyCollection<XmlValidationError> validationErrors)
             : base(typeof(LoadingSchemaSetException), validationErrors?.Count)
         {
             ValidationErrors = validationErrors;
@@ -134,17 +134,23 @@ namespace Puffix.Utilities.Exceptions.XmlUtilities
         /// <summary>
         /// Load and validation errors.
         /// </summary>
-        public IReadOnlyCollection<Exception> ValidationErrors { get; private set; }
+        public IReadOnlyCollection<XmlValidationError> ValidationErrors { get; private set; }
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public XmlValidationException(IReadOnlyCollection<Exception> validationErrors)
+        public XmlValidationException(IReadOnlyCollection<XmlValidationError> validationErrors)
             : base(typeof(XmlValidationException), validationErrors?.Count)
         {
             ValidationErrors = validationErrors;
         }
     }
+
+    //// TODO ici
+    //public sealed class XmlValidationDtailsException : XmlUtilitiesExceptions
+    //{
+    //    public
+    //}
 
     /// <summary>
     /// Error while comparing two XML documents.
