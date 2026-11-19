@@ -620,7 +620,7 @@ public class XmlUtilitiesTests
         const string expectedErrorMessage = "The object to serialize is not set.";
 
         // Test deserialization.
-        NullObjectToSerializeException error = Assert.ThrowsAsync<NullObjectToSerializeException>(async () => await XmlUtilities.SerializeAsync<IssuesContainer>(null));
+        NullObjectToSerializeException error = await Assert.ThrowsAsync<NullObjectToSerializeException>(async () => await XmlUtilities.SerializeAsync<IssuesContainer>(null));
 
         // Check the result.
         using (Assert.EnterMultipleScope())
@@ -639,7 +639,7 @@ public class XmlUtilitiesTests
         const string expectedErrorMessage = "The object to serialize is not set.";
 
         // Test deserialization.
-        NullObjectToSerializeException error = Assert.ThrowsAsync<NullObjectToSerializeException>(async () => await XmlUtilities.SerializeAsByteArrayAsync<IssuesContainer>(null));
+        NullObjectToSerializeException error = await Assert.ThrowsAsync<NullObjectToSerializeException>(async () => await XmlUtilities.SerializeAsByteArrayAsync<IssuesContainer>(null));
 
         // Check the result.
         using (Assert.EnterMultipleScope())
@@ -658,7 +658,7 @@ public class XmlUtilitiesTests
         const string expectedErrorMessage = "The object to serialize is not set.";
 
         // Test deserialization.
-        NullObjectToSerializeException error = Assert.ThrowsAsync<NullObjectToSerializeException>(async () => await XmlUtilities.SerializeAsStreamAsync<IssuesContainer>(null));
+        NullObjectToSerializeException error = await Assert.ThrowsAsync<NullObjectToSerializeException>(async () => await XmlUtilities.SerializeAsStreamAsync<IssuesContainer>(null));
 
         // Check the result.
         using (Assert.EnterMultipleScope())
