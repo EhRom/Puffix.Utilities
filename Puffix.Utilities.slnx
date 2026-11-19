@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/GithubBuild/">
+    <File Path=".github/workflows/dotnet-core.yml" />
+  </Folder>
+  <Project Path="Puffix.Utilities/Puffix.Utilities.csproj" />
+  <Project Path="Tests.Puffix.Utilities/Tests.Puffix.Utilities.csproj" />
+</Solution>
