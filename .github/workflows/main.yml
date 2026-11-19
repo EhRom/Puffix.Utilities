@@ -12,8 +12,8 @@ on:
       - '.github/workflows/*.yml'
 
 env:
-  DOTNET_VERSION: '10.0.x'
-  PACKAGE_VERSION: 10.0.5
+  DOTNET_VERSION: '11.0.x'
+  PACKAGE_VERSION: 11.0.0
 
 jobs:
   build:
