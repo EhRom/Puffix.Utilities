@@ -2,6 +2,9 @@
   <Folder Name="/GithubBuild/">
     <File Path=".github/workflows/main.yml" />
   </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
   <Project Path="Puffix.Utilities/Puffix.Utilities.csproj" />
   <Project Path="Tests.Puffix.Utilities/Tests.Puffix.Utilities.csproj" />
 </Solution>
